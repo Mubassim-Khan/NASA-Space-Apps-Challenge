@@ -85,7 +85,7 @@ export default function Dashboard() {
   };
 
   const handleDownload = () => {
-    const url = `http://127.0.0.1:5000/download?lat=${center[0]}&lon=${center[1]}`;
+    const url = `${import.meta.env.VITE_HOST_URL}/download?lat=${center[0]}&lon=${center[1]}`;
     window.open(url, "_blank");
   };
 

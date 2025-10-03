@@ -1,4 +1,4 @@
-const BASE = "http://127.0.0.1:5000";
+const BASE = import.meta.env.VITE_HOST_URL;
 
 export async function fetchWeather(lat, lon, days = 3, download = false) {
   const url = `${BASE}/weather?lat=${lat}&lon=${lon}&days=${days}&download=${download}`;
