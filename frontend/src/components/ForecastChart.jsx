@@ -23,21 +23,22 @@ ChartJS.register(
   Legend
 );
 
-export default function ForecastChart({ sampleData = [], days = 7 }) {
+export default function ForecastChart({ sampleData = [], days }) {
   if (!sampleData || sampleData.length === 0) return null;
 
   // filter out invalid or missing data
-  const cleaned = sampleData.filter(
-    (r) =>
-      r.date &&
-      !isNaN(new Date(r.date)) &&
-      r.T2M != null &&
-      r.T2M > -90 &&
-      r.T2M < 60
-  );
+  const SENTINELS = [-99, -999, -9999, -99999];
+
+const cleaned = sampleData.map(r => ({
+  ...r,
+  T2M: SENTINELS.includes(r.T2M) ? null : r.T2M,
+  PRECTOTCORR: SENTINELS.includes(r.PRECTOTCORR) ? 0 : r.PRECTOTCORR,
+  RH2M: SENTINELS.includes(r.RH2M) ? null : r.RH2M,
+  WS2M: SENTINELS.includes(r.WS2M) ? null : r.WS2M,
+})).filter(r => r.date && !isNaN(new Date(r.date)));
 
   // only take the number of days requested
-  const sliced = cleaned.slice(0, days);
+  const sliced = cleaned.slice(-days);
 
   const labels = sliced.map((r) => {
     const d = new Date(r.date.includes("T") ? r.date : r.date + "T00:00:00Z");

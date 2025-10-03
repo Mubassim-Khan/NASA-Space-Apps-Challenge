@@ -1,9 +1,13 @@
 from pathlib import Path
+from datetime import datetime, timedelta
 
 # NASA POWER API details
 NASA_API = "https://power.larc.nasa.gov/api/temporal/daily/point"
-START = "20000101"
-END = "20251001"
+days_back = 30  
+
+# Compute dynamic end and start dates
+END = datetime.today().strftime("%Y%m%d")
+START = (datetime.today() - timedelta(days=days_back - 1)).strftime("%Y%m%d")
 
 # Include all useful parameters
 PARAMS = ",".join([

@@ -5,7 +5,7 @@ from config import NASA_API, START, END, PARAMS, DATA_DIR
 
 DATA_DIR.mkdir(exist_ok=True)
 
-def fetch_nasa_data(lat, lon):
+def fetch_nasa_data(lat, lon, days):
     """Fetch from NASA POWER API and save as CSV."""
     params = {
         "start": START,
@@ -33,11 +33,11 @@ def fetch_nasa_data(lat, lon):
     df.to_csv(filepath, index=False)
     return df, filepath
 
-def load_or_fetch(lat, lon):
+def load_or_fetch(lat, lon, days):
     """Load from cache if exists, else fetch from NASA."""
     filepath = DATA_DIR / f"{lat}_{lon}.csv"
     if filepath.exists():
         df = pd.read_csv(filepath)
     else:
-        df, filepath = fetch_nasa_data(lat, lon)
+        df, filepath = fetch_nasa_data(lat, lon, days)
     return df, filepath

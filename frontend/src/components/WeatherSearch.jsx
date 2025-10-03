@@ -61,8 +61,13 @@ export default function WeatherSearch({
         />
         <Button
           type="submit"
-          className="px-4 py-2 rounded-xl bg-emerald-600 hover:brightness-110 transition"
+          className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 transition"
         >
+          {loading ? (
+            <Loader className="animate-spin h-5 w-5 text-white" />
+          ) : (
+            <Search className="w-5 h-5 text-white" />
+          )}
           Use coordinates
         </Button>
       </form>

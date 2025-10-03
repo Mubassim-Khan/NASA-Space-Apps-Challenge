@@ -12,7 +12,7 @@ import {
   SelectValue,
 } from "./ui/select";
 import { Button } from "./ui/button";
-import { Download, Loader } from "lucide-react";
+import { Download } from "lucide-react";
 
 export default function Dashboard() {
   const [center, setCenter] = useState([24.8607, 67.0011]); // Karachi default
@@ -54,6 +54,9 @@ export default function Dashboard() {
     fetchFor(center[0], center[1], rangeDays, displayName);
     // eslint-disable-next-line
   }, []);
+
+  console.log(sampleData);
+  console.log(rangeDays)
 
   const handleCitySearch = async (city) => {
     setError(null);
@@ -103,7 +106,7 @@ export default function Dashboard() {
             <div className="flex items-center gap-3">
               <Button
                 onClick={handleDownload}
-                className="inline-flex items-center gap-2 bg-gray-800 px-4 py-2 rounded-xl hover:brightness-110"
+                className="inline-flex items-center gap-2 bg-gray-800 px-4 py-2 rounded-xl hover:bg-gray-900"
               >
                 <Download className="w-5 h-5" />
                 Download Raw Data
@@ -152,7 +155,9 @@ export default function Dashboard() {
           <div className="space-y-6">
             <ForecastChart sampleData={sampleData} days={rangeDays} />
             <div className="bg-gray-900 p-4 rounded-2xl border border-gray-700">
-              <h4 className="text-sm text-gray-300 mb-2">Summary</h4>
+              <span className="text-xl font-semibold text-gray-300 mb-2 py-3">
+                Summary
+              </span>
               <div className="grid grid-cols-2 gap-3">
                 <div>
                   <div className="text-xs text-gray-400">Avg Humidity</div>
