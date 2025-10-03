@@ -1,8 +1,10 @@
 from flask import Flask, request, jsonify, send_file
+from flask_cors import CORS
 from nasa_service import load_or_fetch
 import os
 
 app = Flask(__name__)
+CORS(app)
 
 @app.route("/weather", methods=["GET"])
 def get_weather():
@@ -20,6 +22,8 @@ def get_weather():
 
     df, filepath = load_or_fetch(lat, lon)
 
+    print("Columns in DataFrame:", df.columns.tolist())
+
     summary = {
         "avg_temp": round(df["T2M"].mean(), 2),
         "total_rainfall": round(df["PRECTOTCORR"].sum(), 2),
@@ -33,7 +37,8 @@ def get_weather():
     return jsonify({
         "location": {"lat": lat, "lon": lon},
         "summary": summary,
-        "sample_data": df.head(10).to_dict(orient="records")
+        "sample_data": df.head(10).to_dict(orient="records"),
+        "available_columns": list(df.columns)
     })
 
 if __name__ == "__main__":
