@@ -1,37 +1,54 @@
-import { Card, CardHeader, CardContent } from "../components/ui/card";
-import { Thermometer, CloudRain, Sun, Database } from "lucide-react";
+import React from "react";
+import { Thermometer, CloudRain, Wind, Sun } from "lucide-react";
 
-export default function WeatherCard({ data }) {
-  const { avg_temp, total_rainfall, avg_solar_radiation, records } =
-    data.summary;
-
+export default function WeatherCard({ summary, probabilities, range_days }) {
   return (
-    <Card className="bg-gray-900 border border-gray-700 text-gray-200 rounded-2xl shadow-xl hover:shadow-2xl transition-shadow duration-500">
-      <CardHeader className="text-xl font-bold text-center text-blue-400">
-        Weather Summary
-      </CardHeader>
-      <CardContent className="grid grid-cols-2 gap-6 p-6">
-        <div className="flex flex-col items-center">
-          <Thermometer className="w-8 h-8 text-red-400 mb-2" />
-          <p className="text-lg">{avg_temp} °C</p>
-          <p className="text-sm text-gray-400">Avg Temp</p>
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="bg-gray-900 p-6 rounded-2xl border border-gray-800 shadow card-hover">
+        <h3 className="text-xl font-semibold text-blue-300 mb-3">Summary ({range_days} days)</h3>
+        <div className="grid grid-cols-2 gap-4">
+          <div className="flex items-center gap-3">
+            <Thermometer className="w-7 h-7 text-red-400" />
+            <div>
+              <div className="text-lg font-medium">{summary.avg_temp ?? "—"} °C</div>
+              <div className="text-sm text-gray-400">Avg Temperature</div>
+            </div>
+          </div>
+          <div className="flex items-center gap-3">
+            <CloudRain className="w-7 h-7 text-blue-400" />
+            <div>
+              <div className="text-lg font-medium">{summary.avg_rainfall ?? "—"} mm</div>
+              <div className="text-sm text-gray-400">Avg Rain</div>
+            </div>
+          </div>
+          <div className="flex items-center gap-3">
+            <Wind className="w-7 h-7 text-indigo-400" />
+            <div>
+              <div className="text-lg font-medium">{summary.avg_windspeed ?? "—"} m/s</div>
+              <div className="text-sm text-gray-400">Avg Wind</div>
+            </div>
+          </div>
+          <div className="flex items-center gap-3">
+            <Sun className="w-7 h-7 text-yellow-400" />
+            <div>
+              <div className="text-lg font-medium">{summary.avg_solar_radiation ?? "—"}</div>
+              <div className="text-sm text-gray-400">Solar Rad</div>
+            </div>
+          </div>
         </div>
-        <div className="flex flex-col items-center">
-          <CloudRain className="w-8 h-8 text-blue-400 mb-2" />
-          <p className="text-lg">{total_rainfall} mm</p>
-          <p className="text-sm text-gray-400">Total Rainfall</p>
+      </div>
+
+      <div className="bg-gray-900 p-6 rounded-2xl border border-gray-800 shadow card-hover">
+        <h3 className="text-xl font-semibold text-purple-300 mb-3">Probability of Conditions</h3>
+        <div className="space-y-3">
+          {Object.entries(probabilities).map(([k, v]) => (
+            <div key={k} className="flex items-center justify-between">
+              <div className="capitalize text-sm text-gray-300">{k.replace("_", " ")}</div>
+              <div className="font-semibold text-lg text-white">{v}%</div>
+            </div>
+          ))}
         </div>
-        <div className="flex flex-col items-center">
-          <Sun className="w-8 h-8 text-yellow-400 mb-2" />
-          <p className="text-lg">{avg_solar_radiation}</p>
-          <p className="text-sm text-gray-400">Solar Radiation</p>
-        </div>
-        <div className="flex flex-col items-center">
-          <Database className="w-8 h-8 text-purple-400 mb-2" />
-          <p className="text-lg">{records}</p>
-          <p className="text-sm text-gray-400">Days Analyzed</p>
-        </div>
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 }

@@ -3,6 +3,22 @@
 
 @custom-variant dark (&:is(.dark *));
 
+body {
+  @apply bg-gray-950 text-gray-100;
+}
+
+/* small niceties */
+.leaflet-container {
+  border-radius: 1rem;
+  box-shadow: 0 8px 30px rgba(2,6,23,0.7);
+}
+
+/* card hover */
+.card-hover:hover {
+  transform: translateY(-6px);
+  transition: transform 200ms ease;
+}
+
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
