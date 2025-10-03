@@ -17,9 +17,20 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, BarElement, LineEleme
 export default function ForecastChart({ sampleData = [] }) {
   if (!sampleData || sampleData.length === 0) return null;
 
-  const labels = sampleData.map((r) => r.date);
-  const temps = sampleData.map((r) => (r.T2M ?? null));
-  const prec = sampleData.map((r) => (r.PRECTOTCORR ?? null));
+  // Filter only valid rows
+  const cleaned = sampleData.filter(
+    r =>
+      r.date &&
+      !isNaN(new Date(r.date)) &&
+      r.T2M != null &&
+      r.T2M > -90 && r.T2M < 60 // realistic temperature range
+  );
+
+  const labels = cleaned.map(r => new Date(r.date).toLocaleDateString("en-US", {
+    month: "short", day: "numeric"
+  }));
+  const temps = cleaned.map(r => r.T2M);
+  const prec = cleaned.map(r => (r.PRECTOTCORR >= 0 ? r.PRECTOTCORR : 0));
 
   const data = {
     labels,

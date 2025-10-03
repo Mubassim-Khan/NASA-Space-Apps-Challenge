@@ -21,6 +21,7 @@ export default function Dashboard() {
   const [rangeDays, setRangeDays] = useState(3);
   const [probabilities, setProbabilities] = useState({});
   const [summary, setSummary] = useState({});
+  console.log(summary);
   const [sampleData, setSampleData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);

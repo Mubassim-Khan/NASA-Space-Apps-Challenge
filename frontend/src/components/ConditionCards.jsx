@@ -15,7 +15,15 @@ export default function ConditionCards({ probabilities = {} }) {
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-      {keys.map((k) => (
+      {keys.map((k) => {
+        // Ensure safe values (0–100)
+        let val = Number(probabilities[k]);
+        if (isNaN(val)) val = 0;
+        if (val < 0) val = 0;
+        if (val > 100) val = 100;
+        return (
+
+        
         <div
           key={k}
           className="bg-gray-800 p-4 rounded-xl border border-gray-700 shadow card-hover flex items-center justify-between"
@@ -29,7 +37,8 @@ export default function ConditionCards({ probabilities = {} }) {
           </div>
           <div className="text-xs text-gray-400">{/* optional small note */}</div>
         </div>
-      ))}
+      );
+      })}
     </div>
   );
 }
