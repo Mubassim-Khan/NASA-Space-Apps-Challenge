@@ -13,6 +13,8 @@ export default function ConditionCards({ probabilities = {} }) {
   // Ensure deterministic order
   const keys = ["very_hot", "very_cold", "very_wet", "very_windy", "very_uncomfortable"];
 
+  console.log(probabilities);
+
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
       {keys.map((k) => {
@@ -23,7 +25,6 @@ export default function ConditionCards({ probabilities = {} }) {
         if (val > 100) val = 100;
         return (
 
-        
         <div
           key={k}
           className="bg-gray-800 p-4 rounded-xl border border-gray-700 shadow card-hover flex items-center justify-between"

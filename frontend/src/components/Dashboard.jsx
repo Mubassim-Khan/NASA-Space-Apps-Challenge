@@ -21,7 +21,6 @@ export default function Dashboard() {
   const [rangeDays, setRangeDays] = useState(3);
   const [probabilities, setProbabilities] = useState({});
   const [summary, setSummary] = useState({});
-  console.log(summary);
   const [sampleData, setSampleData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -157,32 +156,43 @@ export default function Dashboard() {
                 <ConditionCards probabilities={probabilities} />
               </div>
 
+              {/* Forecastchart and Summary */}
               <div className="space-y-6">
                 <ForecastChart sampleData={sampleData} />
                 <div className="bg-gray-900 p-4 rounded-2xl border border-gray-700">
                   <h4 className="text-sm text-gray-300 mb-2">Summary</h4>
                   <div className="grid grid-cols-2 gap-3">
                     <div>
-                      <div className="text-xs text-gray-400">Avg Temp</div>
+                      <div className="text-xs text-gray-400">Avg Humidity</div>
+                      <div className="text-lg">
+                        {summary.avg_humidity ?? "—"} %
+                      </div>
+                    </div>
+                    <div>
+                      <div className="text-xs text-gray-400">Max Temperature</div>
+                      <div className="text-lg">{summary.max_temp ?? 0} °C</div>
+                    </div>
+                    <div>
+                      <div className="text-xs text-gray-400">Min Temperature</div>
+                      <div className="text-lg">{summary.min_temp ?? 0} °C</div>
+                    </div>
+                    <div>
+                      <div className="text-xs text-gray-400">Average Temperature</div>
                       <div className="text-lg">
                         {summary.avg_temp ?? "—"} °C
                       </div>
                     </div>
                     <div>
-                      <div className="text-xs text-gray-400">Avg Rain</div>
+                      <div className="text-xs text-gray-400">Average Rainfall</div>
                       <div className="text-lg">
                         {summary.avg_rainfall ?? "—"} mm
                       </div>
                     </div>
                     <div>
-                      <div className="text-xs text-gray-400">Avg Wind</div>
+                      <div className="text-xs text-gray-400">Average Wind Speed</div>
                       <div className="text-lg">
                         {summary.avg_windspeed ?? "—"} m/s
                       </div>
-                    </div>
-                    <div>
-                      <div className="text-xs text-gray-400">Records</div>
-                      <div className="text-lg">{summary.records ?? 0}</div>
                     </div>
                   </div>
                 </div>
