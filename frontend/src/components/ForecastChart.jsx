@@ -1,4 +1,6 @@
 import React from "react";
+import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
+import { Info } from "lucide-react";
 import { Line } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -11,6 +13,7 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
+import { Button } from "./ui/button";
 
 ChartJS.register(
   CategoryScale,
@@ -29,13 +32,15 @@ export default function ForecastChart({ sampleData = [], days }) {
   // filter out invalid or missing data
   const SENTINELS = [-99, -999, -9999, -99999];
 
-const cleaned = sampleData.map(r => ({
-  ...r,
-  T2M: SENTINELS.includes(r.T2M) ? null : r.T2M,
-  PRECTOTCORR: SENTINELS.includes(r.PRECTOTCORR) ? 0 : r.PRECTOTCORR,
-  RH2M: SENTINELS.includes(r.RH2M) ? null : r.RH2M,
-  WS2M: SENTINELS.includes(r.WS2M) ? null : r.WS2M,
-})).filter(r => r.date && !isNaN(new Date(r.date)));
+  const cleaned = sampleData
+    .map((r) => ({
+      ...r,
+      T2M: SENTINELS.includes(r.T2M) ? null : r.T2M,
+      PRECTOTCORR: SENTINELS.includes(r.PRECTOTCORR) ? 0 : r.PRECTOTCORR,
+      RH2M: SENTINELS.includes(r.RH2M) ? null : r.RH2M,
+      WS2M: SENTINELS.includes(r.WS2M) ? null : r.WS2M,
+    }))
+    .filter((r) => r.date && !isNaN(new Date(r.date)));
 
   // only take the number of days requested
   const sliced = cleaned.slice(-days);
@@ -96,10 +101,22 @@ const cleaned = sampleData.map(r => ({
   };
 
   return (
-    <div className="bg-gray-800 p-4 rounded-2xl border border-gray-700 shadow">
-      <h4 className="text-sm text-gray-300 mb-3">
-        Historical sample (preview)
-      </h4>
+    <div className="bg-gray-800 p-4 rounded-2xl border border-gray-700 shadow relative">
+      <div className="flex items-center justify-between mb-3">
+        <h4 className="text-sm text-gray-300">Graphical Data</h4>
+
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button className="p-1 rounded-full bg-gray-800 hover:bg-gray-900">
+              <Info className="w-5 h-5 text-gray-400" />
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="w-64 bg-gray-800 text-gray-100 border border-gray-700 p-3 rounded-md shadow-lg z-[9999]">
+            As per 1st Oct 2025, NASA has stopped providing the data.
+          </PopoverContent>
+        </Popover>
+      </div>
+
       <div className="h-64">
         <Line
           key={JSON.stringify(sliced)}
