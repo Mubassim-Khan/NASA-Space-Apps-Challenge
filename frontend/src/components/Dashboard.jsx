@@ -55,9 +55,6 @@ export default function Dashboard() {
     // eslint-disable-next-line
   }, []);
 
-  console.log(sampleData);
-  console.log(rangeDays)
-
   const handleCitySearch = async (city) => {
     setError(null);
     setLoading(true);
