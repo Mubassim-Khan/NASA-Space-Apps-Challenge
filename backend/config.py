@@ -20,4 +20,4 @@ PARAMS = ",".join([
 ])
 
 # Data storage
-DATA_DIR = Path("tmp")
+DATA_DIR = Path("/tmp/nasa_data")
