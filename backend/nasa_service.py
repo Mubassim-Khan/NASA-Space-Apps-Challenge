@@ -21,7 +21,13 @@ def fetch_nasa_data(lat, lon):
     data = r.json()
 
     df = pd.DataFrame(data["properties"]["parameter"])
-    df["date"] = pd.to_datetime(df["date"], format="%Y%m%d", errors="coerce")
+    
+    # Dates are in index; make them a column
+    df = df.reset_index().rename(columns={"index": "date"})
+
+    # Convert to datetime
+    df["date"] = pd.to_datetime(df["date"].astype(str), format="%Y%m%d")
+
     
     filepath = DATA_DIR / f"{lat}_{lon}.csv"
     df.to_csv(filepath, index=False)

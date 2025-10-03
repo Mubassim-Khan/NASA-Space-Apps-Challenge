@@ -1,9 +1,13 @@
 import React, { useState } from "react";
-import { Search } from "lucide-react";
+import { Loader, Search } from "lucide-react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 
-export default function WeatherSearch({ onCitySearch, onCoordsSearch }) {
+export default function WeatherSearch({
+  onCitySearch,
+  onCoordsSearch,
+  loading,
+}) {
   const [city, setCity] = useState("");
   const [lat, setLat] = useState("");
   const [lon, setLon] = useState("");
@@ -34,7 +38,11 @@ export default function WeatherSearch({ onCitySearch, onCoordsSearch }) {
           className="px-4 py-2 rounded-xl bg-gradient-to-r from-blue-500 to-purple-600 hover:scale-105 transition-transform"
           aria-label="Search City"
         >
-          <Search className="w-5 h-5 text-white" />
+          {loading ? (
+            <Loader className="animate-spin h-5 w-5 text-white" />
+          ) : (
+            <Search className="w-5 h-5 text-white" />
+          )}
         </Button>
       </form>
 

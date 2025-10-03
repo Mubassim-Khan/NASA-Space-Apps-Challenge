@@ -12,27 +12,40 @@ import {
   Legend,
 } from "chart.js";
 
-ChartJS.register(CategoryScale, LinearScale, PointElement, BarElement, LineElement, Title, Tooltip, Legend);
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  BarElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
-export default function ForecastChart({ sampleData = [] }) {
+export default function ForecastChart({ sampleData = [], days = 7 }) {
   if (!sampleData || sampleData.length === 0) return null;
-  console.log(sampleData);
 
+  // filter out invalid or missing data
   const cleaned = sampleData.filter(
-    r =>
+    (r) =>
       r.date &&
       !isNaN(new Date(r.date)) &&
       r.T2M != null &&
-      r.T2M > -90 && r.T2M < 60
+      r.T2M > -90 &&
+      r.T2M < 60
   );
 
-  const labels = cleaned.map(r => {
-  const d = new Date(r.date.includes("T") ? r.date : r.date + "T00:00:00Z");
-  return d.toLocaleDateString("en-US", { month: "short", day: "numeric" });
-});
+  // only take the number of days requested
+  const sliced = cleaned.slice(0, days);
 
-  const temps = cleaned.map(r => r.T2M);
-  const prec = cleaned.map(r => (r.PRECTOTCORR >= 0 ? r.PRECTOTCORR : 0));
+  const labels = sliced.map((r) => {
+    const d = new Date(r.date.includes("T") ? r.date : r.date + "T00:00:00Z");
+    return d.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+  });
+
+  const temps = sliced.map((r) => r.T2M);
+  const prec = sliced.map((r) => (r.PRECTOTCORR >= 0 ? r.PRECTOTCORR : 0));
 
   const data = {
     labels,
@@ -48,8 +61,8 @@ export default function ForecastChart({ sampleData = [] }) {
       {
         label: "Precipitation (mm)",
         data: prec,
-        borderColor: "#4BC0C0",
-        backgroundColor: "rgba(75,192,192,0.08)",
+        backgroundColor: "rgba(30, 144, 255, 0.5)",
+        borderColor: "#1E90FF",
         type: "bar",
         yAxisID: "y1",
       },
@@ -83,9 +96,16 @@ export default function ForecastChart({ sampleData = [] }) {
 
   return (
     <div className="bg-gray-800 p-4 rounded-2xl border border-gray-700 shadow">
-      <h4 className="text-sm text-gray-300 mb-3">Historical sample (preview)</h4>
+      <h4 className="text-sm text-gray-300 mb-3">
+        Historical sample (preview)
+      </h4>
       <div className="h-64">
-        <Line key={JSON.stringify(sampleData)} data={data} options={options} redraw />
+        <Line
+          key={JSON.stringify(sliced)}
+          data={data}
+          options={options}
+          redraw
+        />
       </div>
     </div>
   );

@@ -3,7 +3,6 @@ import WeatherSearch from "./WeatherSearch";
 import MapPicker from "./MapPicker";
 import ConditionCards from "./ConditionCards";
 import ForecastChart from "./ForecastChart";
-import LoadingSkeleton from "./LoadingSkeletion";
 import { fetchWeather, geocodeCity, reverseGeocode } from "../lib/api";
 import {
   Select,
@@ -13,7 +12,7 @@ import {
   SelectValue,
 } from "./ui/select";
 import { Button } from "./ui/button";
-import { Download } from "lucide-react";
+import { Download, Loader } from "lucide-react";
 
 export default function Dashboard() {
   const [center, setCenter] = useState([24.8607, 67.0011]); // Karachi default
@@ -131,10 +130,11 @@ export default function Dashboard() {
         </header>
 
         <div className="pt-4">
-        <WeatherSearch
-          onCitySearch={handleCitySearch}
-          onCoordsSearch={handleCoordsSearch}
-        />
+          <WeatherSearch
+            onCitySearch={handleCitySearch}
+            onCoordsSearch={handleCoordsSearch}
+            loading={loading}
+          />
         </div>
 
         <h2 className="text-xl">
@@ -142,64 +142,54 @@ export default function Dashboard() {
           <span className="text-blue-400">{displayName}</span>
         </h2>
 
-        {loading ? (
-          <LoadingSkeleton />
-        ) : (
-          <>
-            {error && (
-              <div className="bg-red-900 text-red-100 p-3 rounded">{error}</div>
-            )}
+        {/* Always render the rest of the dashboard */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div className="space-y-6">
+            <MapPicker center={center} onChange={handleMapChange} />
+            <ConditionCards probabilities={probabilities} />
+          </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <div className="space-y-6">
-                <MapPicker center={center} onChange={handleMapChange} />
-                <ConditionCards probabilities={probabilities} />
-              </div>
-
-              {/* Forecastchart and Summary */}
-              <div className="space-y-6">
-                <ForecastChart sampleData={sampleData} />
-                <div className="bg-gray-900 p-4 rounded-2xl border border-gray-700">
-                  <h4 className="text-sm text-gray-300 mb-2">Summary</h4>
-                  <div className="grid grid-cols-2 gap-3">
-                    <div>
-                      <div className="text-xs text-gray-400">Avg Humidity</div>
-                      <div className="text-lg">
-                        {summary.avg_humidity ?? "—"} %
-                      </div>
-                    </div>
-                    <div>
-                      <div className="text-xs text-gray-400">Max Temperature</div>
-                      <div className="text-lg">{summary.max_temp ?? 0} °C</div>
-                    </div>
-                    <div>
-                      <div className="text-xs text-gray-400">Min Temperature</div>
-                      <div className="text-lg">{summary.min_temp ?? 0} °C</div>
-                    </div>
-                    <div>
-                      <div className="text-xs text-gray-400">Average Temperature</div>
-                      <div className="text-lg">
-                        {summary.avg_temp ?? "—"} °C
-                      </div>
-                    </div>
-                    <div>
-                      <div className="text-xs text-gray-400">Average Rainfall</div>
-                      <div className="text-lg">
-                        {summary.avg_rainfall ?? "—"} mm
-                      </div>
-                    </div>
-                    <div>
-                      <div className="text-xs text-gray-400">Average Wind Speed</div>
-                      <div className="text-lg">
-                        {summary.avg_windspeed ?? "—"} m/s
-                      </div>
-                    </div>
+          <div className="space-y-6">
+            <ForecastChart sampleData={sampleData} days={rangeDays} />
+            <div className="bg-gray-900 p-4 rounded-2xl border border-gray-700">
+              <h4 className="text-sm text-gray-300 mb-2">Summary</h4>
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <div className="text-xs text-gray-400">Avg Humidity</div>
+                  <div className="text-lg">{summary.avg_humidity ?? "—"} %</div>
+                </div>
+                <div>
+                  <div className="text-xs text-gray-400">Max Temperature</div>
+                  <div className="text-lg">{summary.max_temp ?? 0} °C</div>
+                </div>
+                <div>
+                  <div className="text-xs text-gray-400">Min Temperature</div>
+                  <div className="text-lg">{summary.min_temp ?? 0} °C</div>
+                </div>
+                <div>
+                  <div className="text-xs text-gray-400">
+                    Average Temperature
+                  </div>
+                  <div className="text-lg">{summary.avg_temp ?? "—"} °C</div>
+                </div>
+                <div>
+                  <div className="text-xs text-gray-400">Average Rainfall</div>
+                  <div className="text-lg">
+                    {summary.avg_rainfall ?? "—"} mm
+                  </div>
+                </div>
+                <div>
+                  <div className="text-xs text-gray-400">
+                    Average Wind Speed
+                  </div>
+                  <div className="text-lg">
+                    {summary.avg_windspeed ?? "—"} m/s
                   </div>
                 </div>
               </div>
             </div>
-          </>
-        )}
+          </div>
+        </div>
 
         <footer className="text-sm text-gray-500 text-center mt-8">
           Data source: NASA POWER. Probabilities are computed from historical
