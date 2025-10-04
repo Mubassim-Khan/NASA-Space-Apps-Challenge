@@ -19,7 +19,7 @@ They are enthusiastic about learning and applying their skills to real-world cha
       linkedin: "https://www.linkedin.com/in/syed-nabeel-hussain-1905b1305",
       github: "https://github.com/nabeelhussain13",
       description:
-        "Full-Stack Web Developer",
+        "Full-Stack Web Developer | Data Analyst",
     },
     {
       name: "Muhammad Jawwad Khan",
