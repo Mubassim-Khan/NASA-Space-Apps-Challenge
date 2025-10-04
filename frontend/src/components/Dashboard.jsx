@@ -3,6 +3,7 @@ import WeatherSearch from "./WeatherSearch";
 import MapPicker from "./MapPicker";
 import SuggestionCards from "./SuggestionCards";
 import ForecastChart from "./ForecastChart";
+import WeatherForecastCards from "./WeatherCards";
 import { fetchWeather, geocodeCity, reverseGeocode } from "../lib/api";
 import {
   Select,
@@ -21,29 +22,54 @@ export default function Dashboard() {
   const [probabilities, setProbabilities] = useState({});
   const [summary, setSummary] = useState({});
   const [sampleData, setSampleData] = useState([]);
+  const [forecastData, setForecastData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+
+  const fetchForecast = async (lat, lon, days = 16) => {
+    try {
+      const res = await fetch(
+        `${
+          import.meta.env.VITE_HOST_URL
+        }/forecast?lat=${lat}&lon=${lon}&days=${days}`
+      );
+      if (!res.ok) throw new Error("Forecast API failed");
+      const data = await res.json();
+      setForecastData(data);
+    } catch (err) {
+      console.error(err);
+      setForecastData([]);
+    }
+  };
 
   const fetchFor = async (lat, lon, days = rangeDays, name) => {
     setError(null);
     setLoading(true);
     try {
-      const res = await fetchWeather(lat, lon, days);
-      setProbabilities(res.probabilities || {});
-      setSummary(res.summary || {});
-      setSampleData(res.sample_data || []);
+      const [historicRes, forecastRes] = await Promise.all([
+        fetchWeather(lat, lon, days),
+        fetchForecast(lat, lon, 16),
+      ]);
+
+      setProbabilities(historicRes.probabilities || {});
+      setSummary(historicRes.summary || {});
+      setSampleData(historicRes.sample_data || []);
+
+      if (forecastRes) setForecastData(forecastRes);
+
       setCenter([lat, lon]);
       if (name) setDisplayName(name);
       else {
         const rev = await reverseGeocode(lat, lon).catch(() => null);
-        if (rev) setDisplayName(rev);
-        else setDisplayName(`${lat.toFixed(3)}, ${lon.toFixed(3)}`);
+        setDisplayName(rev || `${lat.toFixed(3)}, ${lon.toFixed(3)}`);
       }
     } catch (err) {
+      console.error("Error in fetchFor:", err);
       setError(err.message || "Failed fetching data");
       setProbabilities({});
       setSummary({});
       setSampleData([]);
+      setForecastData([]);
     } finally {
       setLoading(false);
     }
@@ -110,27 +136,6 @@ export default function Dashboard() {
                 <Download className="w-5 h-5" />
                 Download Raw Data
               </Button>
-
-              <div className="bg-gray-800 rounded-xl flex items-center gap-2">
-                <Select
-                  value={rangeDays.toString()}
-                  onValueChange={(val) => handleDaysChange(parseInt(val))}
-                >
-                  <SelectTrigger className="bg-transparent border-0 text-gray-200">
-                    <SelectValue placeholder="Select range" />
-                  </SelectTrigger>
-                  <SelectContent className="bg-gray-800 text-gray-200 border border-gray-600">
-                    <SelectItem value="5">5 days</SelectItem>
-                    <SelectItem value="7">7 days</SelectItem>
-                    <SelectItem value="15">15 days</SelectItem>
-                    <SelectItem value="30">1 Month</SelectItem>
-                    <SelectItem value="60">2 Months</SelectItem>
-                    <SelectItem value="90">3 Months</SelectItem>
-                    <SelectItem value="183">6 Months</SelectItem>
-                    <SelectItem value="365">1 Year</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
             </div>
           </div>
         </header>
@@ -148,14 +153,46 @@ export default function Dashboard() {
           <span className="text-blue-400">{displayName}</span>
         </h2>
 
+        <div className="flex flex-col lg:flex-row gap-6 mt-4 overflow-hidden">
+          {/* Forecast Section */}
+          <div className="flex-1 min-w-0 overflow-hidden">
+            <WeatherForecastCards forecastData={forecastData.forecast || []} />
+          </div>
+
+          {/* Trip Suggestions */}
+          <div className="lg:w-1/3 flex-shrink-0">
+            <SuggestionCards summary={forecastData} />
+          </div>
+        </div>
+
         {/* Always render the rest of the dashboard */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <div className="space-y-6 z-10">
             <MapPicker center={center} onChange={handleMapChange} />
-            <SuggestionCards summary={summary} />
+            {/* <SuggestionCards summary={summary} /> */}
           </div>
 
           <div className="space-y-6">
+            <div className="bg-gray-800 rounded-xl flex items-center gap-2">
+              <Select
+                value={rangeDays.toString()}
+                onValueChange={(val) => handleDaysChange(parseInt(val))}
+              >
+                <SelectTrigger className="bg-transparent border-0 text-gray-200">
+                  <SelectValue placeholder="Select range" />
+                </SelectTrigger>
+                <SelectContent className="bg-gray-800 text-gray-200 border border-gray-600">
+                  <SelectItem value="5">5 days</SelectItem>
+                  <SelectItem value="7">7 days</SelectItem>
+                  <SelectItem value="15">15 days</SelectItem>
+                  <SelectItem value="30">1 Month</SelectItem>
+                  <SelectItem value="60">2 Months</SelectItem>
+                  <SelectItem value="90">3 Months</SelectItem>
+                  <SelectItem value="183">6 Months</SelectItem>
+                  <SelectItem value="365">1 Year</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
             <ForecastChart sampleData={sampleData} days={rangeDays} />
             <div className="bg-gray-800 p-4 rounded-2xl border border-gray-700">
               <h3 className="text-xl font-semibold text-gray-100 mb-2">

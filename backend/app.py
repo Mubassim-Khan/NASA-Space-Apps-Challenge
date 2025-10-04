@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify, send_file
 from nasa_service import load_or_fetch
+from forecast_service import fetch_forecast
 from flask_cors import CORS
 import pandas as pd
 import os
@@ -141,6 +142,30 @@ def download_data():
 
     df, filepath = load_or_fetch(lat, lon, days)
     return send_file(filepath, as_attachment=True)
+
+@app.route("/forecast", methods=["GET"])
+def get_forecast():
+    lat = request.args.get("lat")
+    lon = request.args.get("lon")
+    days = int(request.args.get("days", 16))  # default 16 days
+
+    if not lat or not lon:
+        return jsonify({"error": "lat and lon required"}), 400
+
+    try:
+        lat, lon = float(lat), float(lon)
+    except ValueError:
+        return jsonify({"error": "Invalid coordinates"}), 400
+
+    forecast, err = fetch_forecast(lat, lon, days)
+    if err:
+        return jsonify({"error": err}), 500
+
+    return jsonify({
+        "location": {"lat": lat, "lon": lon},
+        "range_days": days,
+        "forecast": forecast
+    })
 
 if __name__ == "__main__":
     app.run(debug=True)

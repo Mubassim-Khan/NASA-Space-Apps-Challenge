@@ -6,11 +6,14 @@ import App from "./App.jsx";
 // Leaflet CSS
 import "leaflet/dist/leaflet.css";
 import { BrowserRouter } from "react-router-dom";
+import ToastProvider from "./components/ToastProvder";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <BrowserRouter>
-      <App />
+      <ToastProvider>
+        <App />
+      </ToastProvider>
     </BrowserRouter>
   </StrictMode>
 );

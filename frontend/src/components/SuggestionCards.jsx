@@ -4,67 +4,84 @@ import { Thermometer, CloudRain, Wind, Sun } from "lucide-react";
 export default function SuggestionCards({ summary = {} }) {
   const suggestions = [];
 
-  const { avg_temp, max_temp, min_temp, avg_rainfall, avg_windspeed } = summary;
+  const forecast = summary.forecast || [];
 
-  if (avg_temp !== undefined) {
-    if (avg_temp >= 30)
-      suggestions.push({
-        text: "Temperatures are generally high. Light clothing is recommended!",
-        icon: <Sun className="w-6 h-6 text-yellow-400" />,
-      });
-    else if (avg_temp <= 15)
-      suggestions.push({
-        text: "Cool conditions expected. Keep warm and dress in layers!",
-        icon: <Thermometer className="w-6 h-6 text-red-400" />,
-      });
+  // Avoid errors if no data
+  if (forecast.length === 0) {
+    return (
+      <div className="bg-gray-800 border border-gray-700 rounded-2xl p-6">
+        <h3 className="text-xl font-semibold text-gray-100 mb-2">
+          Suggestions for Your Trip
+        </h3>
+        <p className="text-gray-300">No forecast data available yet.</p>
+      </div>
+    );
   }
 
-  // Rainfall suggestions
-  if (avg_rainfall !== undefined) {
-    if (avg_rainfall > 2)
-      suggestions.push({
-        text: "Frequent or heavy rainfall observed. Carry rain protection!",
-        icon: <CloudRain className="w-6 h-6 text-blue-400" />,
-      });
-    else if (avg_rainfall < 0.5)
-      suggestions.push({
-        text: "Low rainfall overall. Expect mostly dry conditions.",
-        icon: <CloudRain className="w-6 h-6 text-gray-400" />,
-      });
-  }
+  // Calculate averages
+  const avg_temp =
+    forecast.reduce((sum, f) => sum + (f.expected_temp || 0), 0) /
+    forecast.length;
+  const avg_rainfall =
+    forecast.reduce((sum, f) => sum + (f.rainfall || 0), 0) / forecast.length;
+  const avg_windspeed =
+    forecast.reduce((sum, f) => sum + (f.windspeed || 0), 0) / forecast.length;
 
-  // Wind suggestions
-  if (avg_windspeed !== undefined) {
-    if (avg_windspeed > 10)
-      suggestions.push({
-        text: "Windy conditions are common. A windbreaker could be useful!",
-        icon: <Wind className="w-6 h-6 text-indigo-300" />,
-      });
-    else if (avg_windspeed < 4)
-      suggestions.push({
-        text: "Winds are generally calm across this period.",
-        icon: <Wind className="w-6 h-6 text-gray-300" />,
-      });
-  }
+  const max_temp = Math.max(...forecast.map((f) => f.max_temp || 0));
+  const min_temp = Math.min(...forecast.map((f) => f.min_temp || 0));
 
-  // Max/min temperature alerts (generalized)
-  if (max_temp !== undefined && max_temp > 35) {
+  // 🧊 Temperature-based suggestions
+  if (avg_temp >= 30)
     suggestions.push({
-      text: "Occasionally very hot weather occurs. Stay cool and hydrated!",
+      text: "Temperatures are generally high. Light clothing is recommended!",
+      icon: <Sun className="w-6 h-6 text-yellow-400" />,
+    });
+  else if (avg_temp <= 15)
+    suggestions.push({
+      text: "Cool conditions expected. Keep warm and dress in layers!",
+      icon: <Thermometer className="w-6 h-6 text-red-400" />,
+    });
+
+  // 🌧 Rainfall suggestions
+  if (avg_rainfall > 2)
+    suggestions.push({
+      text: "Frequent or heavy rainfall predicted. Carry rain protection!",
+      icon: <CloudRain className="w-6 h-6 text-blue-400" />,
+    });
+  else if (avg_rainfall < 0.5)
+    suggestions.push({
+      text: "Low rainfall expected. Enjoy mostly dry conditions.",
+      icon: <CloudRain className="w-6 h-6 text-gray-400" />,
+    });
+
+  // 🌬 Wind suggestions
+  if (avg_windspeed > 10)
+    suggestions.push({
+      text: "Windy conditions expected. A windbreaker could be useful!",
+      icon: <Wind className="w-6 h-6 text-indigo-300" />,
+    });
+  else if (avg_windspeed < 4)
+    suggestions.push({
+      text: "Winds are generally calm across this period.",
+      icon: <Wind className="w-6 h-6 text-gray-300" />,
+    });
+
+  // 🔥 Extremes
+  if (max_temp > 35)
+    suggestions.push({
+      text: "Some days might be extremely hot. Stay hydrated and avoid direct sunlight!",
       icon: <Sun className="w-6 h-6 text-orange-400" />,
     });
-  }
-  if (min_temp !== undefined && min_temp < 10) {
+  if (min_temp < 10)
     suggestions.push({
-      text: "Some periods can be quite cold. Keep warm clothing handy!",
+      text: "Expect some cold spells. Pack warm clothing just in case!",
       icon: <Thermometer className="w-6 h-6 text-cyan-400" />,
     });
-  }
 
-  // Default suggestion
+  // 🟢 Default fallback
   if (suggestions.length === 0) {
     suggestions.push({
-      text: "Weather conditions appear moderate overall. Great time to plan outdoor activities!",
+      text: "Weather looks moderate overall — perfect for outdoor plans!",
       icon: <Sun className="w-6 h-6 text-green-400" />,
     });
   }

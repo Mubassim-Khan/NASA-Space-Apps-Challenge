@@ -25,7 +25,7 @@ They are enthusiastic about learning and applying their skills to real-world cha
       name: "Muhammad Jawwad Khan",
       linkedin: "https://www.linkedin.com/in/jawwadkhan777",
       github: "https://github.com/jawwadkhan777",
-      description: "Full-Stack Web Developer | Learner",
+      description: "Full-Stack Web Developer | Exploring AI",
     },
     {
       name: "Afaq Malik",

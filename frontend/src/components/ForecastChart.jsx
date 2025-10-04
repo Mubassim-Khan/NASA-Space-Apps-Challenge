@@ -55,8 +55,6 @@ export default function ForecastChart({ sampleData = [], days }) {
   const temps = sliced.map((r) => r.T2M);
   const prec = sliced.map((r) => (r.PRECTOTCORR >= 0 ? r.PRECTOTCORR : 0));
 
-  console.log(sampleData)
-
   const data = {
     labels,
     datasets: [
