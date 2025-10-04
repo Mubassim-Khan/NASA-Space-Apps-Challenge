@@ -9,8 +9,8 @@ and receive practical packing suggestions. The UI is modern and intuitive, allow
 Additionally, users can download raw weather data for further analysis if needed.`;
 
   // General team description
-  const teamOverview = `The team consists of 4th-year BSCS students from the University of Karachi, Department of Computer Science (UBIT). 
-Each member is skilled in different technologies and has strong knowledge and interest in programming, data analysis, and web development. 
+  const teamOverview = `This team consists of 4th-year BSCS students from the University of Karachi, Department of Computer Science (UBIT). 
+Each member is skilled in different technologies and has strong knowledge and interest in domains like Data Analysis, Web Development, Machine Learning, and Artificial Intelligence. 
 They are enthusiastic about learning and applying their skills to real-world challenges like this project.`;
 
   const teamMembers = [
@@ -19,7 +19,7 @@ They are enthusiastic about learning and applying their skills to real-world cha
       linkedin: "https://www.linkedin.com/in/syed-nabeel-hussain-1905b1305",
       github: "https://github.com/nabeelhussain13",
       description:
-        "Undergraduate BSCS Student | Data Analyst | Data Science enthusiast.",
+        "Full-Stack Web Developer",
     },
     {
       name: "Muhammad Jawwad Khan",
@@ -31,7 +31,7 @@ They are enthusiastic about learning and applying their skills to real-world cha
       name: "Afaq Malik",
       linkedin: "https://www.linkedin.com/in/afaq-malik-1584482b8/",
       github: "https://github.com/Afaq-Malik-16",
-      description: "UI/UX designer creating intuitive user experiences.",
+      description: "Full-Stack Developer",
     },
     {
       name: "Ibad Hussain",

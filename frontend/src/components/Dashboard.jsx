@@ -119,13 +119,14 @@ export default function Dashboard() {
                   <SelectTrigger className="bg-transparent border-0 text-gray-200">
                     <SelectValue placeholder="Select range" />
                   </SelectTrigger>
-                  <SelectContent className="bg-gray-800 text-gray-200 border border-gray-800">
+                  <SelectContent className="bg-gray-800 text-gray-200 border border-gray-600">
                     <SelectItem value="5">5 days</SelectItem>
                     <SelectItem value="7">7 days</SelectItem>
                     <SelectItem value="15">15 days</SelectItem>
-                    <SelectItem value="30">30 days</SelectItem>
-                    <SelectItem value="60">60 days</SelectItem>
+                    <SelectItem value="30">1 Month</SelectItem>
+                    <SelectItem value="60">2 Months</SelectItem>
                     <SelectItem value="90">3 Months</SelectItem>
+                    <SelectItem value="183">6 Months</SelectItem>
                     <SelectItem value="365">1 Year</SelectItem>
                   </SelectContent>
                 </Select>
@@ -149,44 +150,44 @@ export default function Dashboard() {
 
         {/* Always render the rest of the dashboard */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <div className="space-y-6">
+          <div className="space-y-6 z-10">
             <MapPicker center={center} onChange={handleMapChange} />
             <SuggestionCards summary={summary} />
           </div>
 
           <div className="space-y-6">
             <ForecastChart sampleData={sampleData} days={rangeDays} />
-            <div className="bg-gray-900 p-4 rounded-2xl border border-gray-700">
-              <span className="text-xl font-semibold text-gray-300 mb-2 py-3">
+            <div className="bg-gray-800 p-4 rounded-2xl border border-gray-700">
+              <h3 className="text-xl font-semibold text-gray-100 mb-2">
                 Summary
-              </span>
+              </h3>
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <div className="text-xs text-gray-400">Avg Humidity</div>
+                  <div className="text-md text-gray-400">Average Humidity</div>
                   <div className="text-lg">{summary.avg_humidity ?? "—"} %</div>
                 </div>
                 <div>
-                  <div className="text-xs text-gray-400">Max Temperature</div>
+                  <div className="text-md text-gray-400">Max Temperature</div>
                   <div className="text-lg">{summary.max_temp ?? 0} °C</div>
                 </div>
                 <div>
-                  <div className="text-xs text-gray-400">Min Temperature</div>
+                  <div className="text-md text-gray-400">Min Temperature</div>
                   <div className="text-lg">{summary.min_temp ?? 0} °C</div>
                 </div>
                 <div>
-                  <div className="text-xs text-gray-400">
+                  <div className="text-md text-gray-400">
                     Average Temperature
                   </div>
                   <div className="text-lg">{summary.avg_temp ?? "—"} °C</div>
                 </div>
                 <div>
-                  <div className="text-xs text-gray-400">Average Rainfall</div>
+                  <div className="text-md text-gray-400">Average Rainfall</div>
                   <div className="text-lg">
                     {summary.avg_rainfall ?? "—"} mm
                   </div>
                 </div>
                 <div>
-                  <div className="text-xs text-gray-400">
+                  <div className="text-md text-gray-400">
                     Average Wind Speed
                   </div>
                   <div className="text-lg">
@@ -198,9 +199,9 @@ export default function Dashboard() {
           </div>
         </div>
 
-        <footer className="text-sm text-gray-500 text-center mt-8">
+        <footer className="text-sm text-gray-200 text-center mt-8">
           Data source: NASA POWER. Probabilities are computed from historical
-          records (not a forecast model).
+          records.
         </footer>
       </div>
     </div>
