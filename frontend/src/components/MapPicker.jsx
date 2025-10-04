@@ -53,7 +53,7 @@ function FlyTo({ coords, zoom = 10 }) {
 
 export default function MapPicker({ center = [24.8607, 67.0011], onChange }) {
   return (
-    <div className="w-full h-96 rounded-2xl overflow-hidden shadow-lg">
+    <div className="w-full h-125 rounded-2xl overflow-hidden shadow-lg z-5">
       <MapContainer
         center={center}
         zoom={8}

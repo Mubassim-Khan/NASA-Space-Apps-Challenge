@@ -166,14 +166,16 @@ export default function Dashboard() {
         </div>
 
         {/* Always render the rest of the dashboard */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <div className="space-y-6 z-10">
-            <MapPicker center={center} onChange={handleMapChange} />
-            {/* <SuggestionCards summary={summary} /> */}
-          </div>
+        {/* Map Full Width */}
+        <div className="w-full z-50">
+          <MapPicker center={center} onChange={handleMapChange} />
+        </div>
 
-          <div className="space-y-6">
-            <div className="bg-gray-800 rounded-xl flex items-center gap-2">
+        {/* Graph and Summary Side by Side Below the Map */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
+          {/* Left: Chart */}
+          <div className="space-y-4">
+            <div className="bg-gray-800 rounded-xl flex w-[100px] items-center gap-2">
               <Select
                 value={rangeDays.toString()}
                 onValueChange={(val) => handleDaysChange(parseInt(val))}
@@ -194,42 +196,38 @@ export default function Dashboard() {
               </Select>
             </div>
             <ForecastChart sampleData={sampleData} days={rangeDays} />
-            <div className="bg-gray-800 p-4 rounded-2xl border border-gray-700">
-              <h3 className="text-xl font-semibold text-gray-100 mb-2">
-                Summary
-              </h3>
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <div className="text-md text-gray-400">Average Humidity</div>
-                  <div className="text-lg">{summary.avg_humidity ?? "—"} %</div>
-                </div>
-                <div>
-                  <div className="text-md text-gray-400">Max Temperature</div>
-                  <div className="text-lg">{summary.max_temp ?? 0} °C</div>
-                </div>
-                <div>
-                  <div className="text-md text-gray-400">Min Temperature</div>
-                  <div className="text-lg">{summary.min_temp ?? 0} °C</div>
-                </div>
-                <div>
-                  <div className="text-md text-gray-400">
-                    Average Temperature
-                  </div>
-                  <div className="text-lg">{summary.avg_temp ?? "—"} °C</div>
-                </div>
-                <div>
-                  <div className="text-md text-gray-400">Average Rainfall</div>
-                  <div className="text-lg">
-                    {summary.avg_rainfall ?? "—"} mm
-                  </div>
-                </div>
-                <div>
-                  <div className="text-md text-gray-400">
-                    Average Wind Speed
-                  </div>
-                  <div className="text-lg">
-                    {summary.avg_windspeed ?? "—"} m/s
-                  </div>
+          </div>
+
+          {/* Right: Summary */}
+          <div className="bg-gray-800 p-4 rounded-2xl border border-gray-700 space-y-2 px-2 pl-5">
+            <h3 className="text-xl font-semibold text-gray-100 mb-2">
+              Summary
+            </h3>
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <div className="text-md text-gray-400">Average Humidity</div>
+                <div className="text-lg">{summary.avg_humidity ?? "—"} %</div>
+              </div>
+              <div>
+                <div className="text-md text-gray-400">Max Temperature</div>
+                <div className="text-lg">{summary.max_temp ?? 0} °C</div>
+              </div>
+              <div>
+                <div className="text-md text-gray-400">Min Temperature</div>
+                <div className="text-lg">{summary.min_temp ?? 0} °C</div>
+              </div>
+              <div>
+                <div className="text-md text-gray-400">Average Temperature</div>
+                <div className="text-lg">{summary.avg_temp ?? "—"} °C</div>
+              </div>
+              <div>
+                <div className="text-md text-gray-400">Average Rainfall</div>
+                <div className="text-lg">{summary.avg_rainfall ?? "—"} mm</div>
+              </div>
+              <div>
+                <div className="text-md text-gray-400">Average Wind Speed</div>
+                <div className="text-lg">
+                  {summary.avg_windspeed ?? "—"} m/s
                 </div>
               </div>
             </div>

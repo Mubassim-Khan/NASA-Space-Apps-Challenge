@@ -83,12 +83,33 @@ def fetch_forecast(lat, lon, days):
     daily_data = data["daily"]
     forecasts = []
     for i in range(len(daily_data["time"])):
+        max_temp = daily_data["temperature_2m_max"][i]
+        min_temp = daily_data["temperature_2m_min"][i]
+        rh_max = daily_data.get("relative_humidity_2m_max", [None])[i]
+        rh_min = daily_data.get("relative_humidity_2m_min", [None])[i]
+
+        # Skip invalid days (missing core data)
+        if max_temp is None and min_temp is None:
+            continue
+
+        # Compute safely
+        expected_temp = (
+            round((max_temp + min_temp) / 2, 1)
+            if max_temp is not None and min_temp is not None
+            else None
+        )
+        avg_humidity = (
+            round((rh_max + rh_min) / 2, 1)
+            if rh_max is not None and rh_min is not None
+            else None
+        )
+
         forecasts.append({
             "date": daily_data["time"][i],
-            "max_temp": daily_data["temperature_2m_max"][i],
-            "min_temp": daily_data["temperature_2m_min"][i],
-            "expected_temp": round((daily_data["temperature_2m_max"][i] + daily_data["temperature_2m_min"][i]) / 2, 1),
-            "humidity": round((daily_data["relative_humidity_2m_max"][i] + daily_data["relative_humidity_2m_min"][i]) / 2, 1),
+            "max_temp": max_temp,
+            "min_temp": min_temp,
+            "expected_temp": expected_temp,
+            "humidity": avg_humidity,
             "rain_chance": daily_data.get("precipitation_probability_mean", [None])[i],
             "rainfall": daily_data["precipitation_sum"][i],
             "windspeed": daily_data["windspeed_10m_max"][i],

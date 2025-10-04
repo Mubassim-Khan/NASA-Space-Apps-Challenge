@@ -9,7 +9,7 @@ and receive practical packing suggestions. The UI is modern and intuitive, allow
 Additionally, users can download raw weather data for further analysis if needed.`;
 
   // General team description
-  const teamOverview = `This team consists of 4th-year BSCS students from the University of Karachi, Department of Computer Science (UBIT). 
+  const teamOverview = `Our team consists of 4th-year BSCS students from the University of Karachi, Department of Computer Science (UBIT). 
 Each member is skilled in different technologies and has strong knowledge and interest in domains like Data Analysis, Web Development, Machine Learning, and Artificial Intelligence. 
 They are enthusiastic about learning and applying their skills to real-world challenges like this project.`;
 

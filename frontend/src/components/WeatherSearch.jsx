@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Loader, Search } from "lucide-react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
+import toast from "react-hot-toast";
 
 export default function WeatherSearch({
   onCitySearch,
@@ -12,10 +13,18 @@ export default function WeatherSearch({
   const [lat, setLat] = useState("");
   const [lon, setLon] = useState("");
 
-  const submitCity = (e) => {
+  const submitCity = async (e) => {
     e.preventDefault();
-    if (!city) return;
-    onCitySearch(city);
+    if (!city.trim()) {
+      toast.error("Please enter a city name first!");
+      return;
+    }
+
+    try {
+      await onCitySearch(city);
+    } catch (err) {
+      toast.error("City not found. Please check the name and try again!");
+    }
   };
 
   const submitCoords = (e) => {
