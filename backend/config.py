@@ -3,7 +3,7 @@ from datetime import datetime, timedelta
 
 # NASA POWER API details
 NASA_API = "https://power.larc.nasa.gov/api/temporal/daily/point"
-days_back = 30  
+days_back = 365  
 
 # Compute dynamic end and start dates
 END = datetime.today().strftime("%Y%m%d")

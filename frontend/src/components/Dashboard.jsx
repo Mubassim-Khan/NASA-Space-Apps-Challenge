@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import WeatherSearch from "./WeatherSearch";
 import MapPicker from "./MapPicker";
-import ConditionCards from "./ConditionCards";
+import SuggestionCards from "./SuggestionCards";
 import ForecastChart from "./ForecastChart";
 import { fetchWeather, geocodeCity, reverseGeocode } from "../lib/api";
 import {
@@ -17,7 +17,7 @@ import { Download } from "lucide-react";
 export default function Dashboard() {
   const [center, setCenter] = useState([24.8607, 67.0011]); // Karachi default
   const [displayName, setDisplayName] = useState("Karachi, Pakistan");
-  const [rangeDays, setRangeDays] = useState(3);
+  const [rangeDays, setRangeDays] = useState(5);
   const [probabilities, setProbabilities] = useState({});
   const [summary, setSummary] = useState({});
   const [sampleData, setSampleData] = useState([]);
@@ -82,12 +82,14 @@ export default function Dashboard() {
   };
 
   const handleDownload = () => {
-    const url = `${import.meta.env.VITE_HOST_URL}/download?lat=${center[0]}&lon=${center[1]}`;
+    const url = `${import.meta.env.VITE_HOST_URL}/download?lat=${
+      center[0]
+    }&lon=${center[1]}`;
     window.open(url, "_blank");
   };
 
   return (
-    <div className="min-h-screen p-8 bg-gray-950 text-gray-100">
+    <div className="min-h-screen p-8 mt-[75px] text-gray-100">
       <div className="max-w-6xl mx-auto space-y-6">
         <header className="flex items-center justify-between">
           <div className="space-y-2 text-left">
@@ -118,10 +120,13 @@ export default function Dashboard() {
                     <SelectValue placeholder="Select range" />
                   </SelectTrigger>
                   <SelectContent className="bg-gray-800 text-gray-200 border border-gray-800">
-                    <SelectItem value="3">3 days</SelectItem>
+                    <SelectItem value="5">5 days</SelectItem>
                     <SelectItem value="7">7 days</SelectItem>
                     <SelectItem value="15">15 days</SelectItem>
                     <SelectItem value="30">30 days</SelectItem>
+                    <SelectItem value="60">60 days</SelectItem>
+                    <SelectItem value="90">3 Months</SelectItem>
+                    <SelectItem value="365">1 Year</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -146,7 +151,7 @@ export default function Dashboard() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <div className="space-y-6">
             <MapPicker center={center} onChange={handleMapChange} />
-            <ConditionCards probabilities={probabilities} />
+            <SuggestionCards summary={summary} />
           </div>
 
           <div className="space-y-6">

@@ -99,7 +99,7 @@ def compute_probabilities(df, days, monthly_percentiles=None):
 def get_weather():
     lat = request.args.get("lat")
     lon = request.args.get("lon")
-    days = int(request.args.get("days"))  # default 7 days
+    days = int(request.args.get("days"))
     download = request.args.get("download", "false").lower() == "true"
 
     if not lat or not lon:

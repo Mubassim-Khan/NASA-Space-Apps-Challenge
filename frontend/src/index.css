@@ -4,7 +4,18 @@
 @custom-variant dark (&:is(.dark *));
 
 body {
-  @apply bg-gray-950 text-gray-100;
+  /* Apply text color */
+  @apply text-gray-100;
+
+  background-image: linear-gradient(
+    45deg,      /* 45° angle */
+    #0042A6,    /* Electric Blue at top-left */
+    #030712     /* Deep Blue at bottom-right */
+  );
+  
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
 
 /* small niceties */
