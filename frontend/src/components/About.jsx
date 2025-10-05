@@ -6,7 +6,7 @@ export default function About() {
 It provides historical weather insights to help users plan their day and pack accordingly. The app uses NASA POWER data 
 to compute probabilities of hot, cold, wet, and windy conditions based on past records. Users can search by city or coordinates 
 and receive practical packing suggestions. The UI is modern and intuitive, allowing users to interact with maps, charts, and summaries easily. 
-Additionally, users can download raw weather data for further analysis if needed. The project is open source — check it out on `;
+Additionally, users can download raw weather data for further analysis if needed. The project is open source - check it out on `;
 
   // General team description
   const teamOverview = `Our team consists of 4th-year BSCS students from the University of Karachi, Department of Computer Science (UBIT). 
@@ -27,16 +27,16 @@ They are enthusiastic about learning and applying their skills to real-world cha
       description: "Full-Stack Web Developer | Data Analyst",
     },
     {
-      name: "Muhammad Jawwad Khan",
-      linkedin: "https://www.linkedin.com/in/jawwadkhan777",
-      github: "https://github.com/jawwadkhan777",
-      description: "Full-Stack Web Developer | Exploring AI",
-    },
-    {
       name: "Afaq Malik",
       linkedin: "https://www.linkedin.com/in/afaq-malik-1584482b8/",
       github: "https://github.com/Afaq-Malik-16",
       description: "Full-Stack Developer | Python Developer",
+    },
+    {
+      name: "Muhammad Jawwad Khan",
+      linkedin: "https://www.linkedin.com/in/jawwadkhan777",
+      github: "https://github.com/jawwadkhan777",
+      description: "Full-Stack Web Developer | Exploring AI",
     },
     {
       name: "Ibad Hussain",
@@ -57,7 +57,7 @@ They are enthusiastic about learning and applying their skills to real-world cha
         {/* Project Description */}
         <section className="bg-gray-800 p-6 rounded-2xl border border-gray-700 shadow-md">
           <h2 className="text-2xl font-semibold mb-3">Project Description</h2>
-          <p className="text-gray-300">{projectDescription}<a href="https://github.com/Mubassim-Khan/NASA-Space-Apps-Challenge">GitHub</a>.</p>
+          <p className="text-gray-300">{projectDescription}<a href="https://github.com/Mubassim-Khan/NASA-Space-Apps-Challenge" className="border-b-2 text-purple-700">GitHub</a>.</p>
         </section>
 
         {/* UI Features Highlight */}
