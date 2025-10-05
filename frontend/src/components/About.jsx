@@ -2,7 +2,7 @@ import React from "react";
 import { User2, Linkedin, Github } from "lucide-react"; // Icons
 
 export default function About() {
-  const projectDescription = `“Will It Rain On My Parade?” is a project developed for the 2025 NASA Space Apps Challenge.
+  const projectDescription = `Climatrack is a data-driven weather planning app built around the challenge theme “Will It Rain On My Parade?” for the 2025 NASA Space Apps Challenge.
 It provides historical weather insights to help users plan their day and pack accordingly. The app uses NASA POWER data 
 to compute probabilities of hot, cold, wet, and windy conditions based on past records. Users can search by city or coordinates 
 and receive practical packing suggestions. The UI is modern and intuitive, allowing users to interact with maps, charts, and summaries easily. 
