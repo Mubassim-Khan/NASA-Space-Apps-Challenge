@@ -15,11 +15,16 @@ They are enthusiastic about learning and applying their skills to real-world cha
 
   const teamMembers = [
     {
+      name: "Mubassim Ahmed Khan",
+      linkedin: "https://linkedin.com/in/mubassim",
+      github: "https://github.com/Mubassim-Khan",
+      description: "Full-Stack Web Developer | AI & ML Enthusiast",
+    },
+    {
       name: "Syed Nabeel Hussain",
       linkedin: "https://www.linkedin.com/in/syed-nabeel-hussain-1905b1305",
       github: "https://github.com/nabeelhussain13",
-      description:
-        "Full-Stack Web Developer | Data Analyst",
+      description: "Full-Stack Web Developer | Data Analyst",
     },
     {
       name: "Muhammad Jawwad Khan",
@@ -31,19 +36,13 @@ They are enthusiastic about learning and applying their skills to real-world cha
       name: "Afaq Malik",
       linkedin: "https://www.linkedin.com/in/afaq-malik-1584482b8/",
       github: "https://github.com/Afaq-Malik-16",
-      description: "Full-Stack Developer",
+      description: "Full-Stack Developer | Python Developer",
     },
     {
       name: "Ibad Hussain",
       linkedin: "https://www.linkedin.com/in/ibadhussain",
       github: "https://github.com/ibad-hussain",
-      description: "Computer Scientist @UoK",
-    },
-    {
-      name: "Mubassim Ahmed Khan",
-      linkedin: "https://linkedin.com/in/mubassim",
-      github: "https://github.com/Mubassim-Khan",
-      description: "Full-Stack Web Developer | AI & ML Enthusiast",
+      description: "Computer Scientist @UoK | Full-Stack Developer",
     },
   ];
 
