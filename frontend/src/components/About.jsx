@@ -57,7 +57,7 @@ They are enthusiastic about learning and applying their skills to real-world cha
         {/* Project Description */}
         <section className="bg-gray-800 p-6 rounded-2xl border border-gray-700 shadow-md">
           <h2 className="text-2xl font-semibold mb-3">Project Description</h2>
-          <p className="text-gray-300">{projectDescription}<a href="https://github.com/Mubassim-Khan/NASA-Space-Apps-Challenge" className="border-b-2 text-purple-700">GitHub</a>.</p>
+          <p className="text-gray-300">{projectDescription}<a href="https://github.com/Mubassim-Khan/NASA-Space-Apps-Challenge" className="border-b-1 border-blue-300 text-blue-300">GitHub</a>.</p>
         </section>
 
         {/* UI Features Highlight */}
