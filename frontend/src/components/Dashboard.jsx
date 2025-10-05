@@ -117,26 +117,17 @@ export default function Dashboard() {
   return (
     <div className="min-h-screen p-8 mt-[75px] text-gray-100">
       <div className="max-w-6xl mx-auto space-y-6">
-        <header className="flex items-center justify-between">
-          <div className="space-y-2 text-left">
+        <header className="flex items-center justify-center text-center min-h-[vh]">
+          <div className="space-y-2">
             <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">
               2025 NASA Space Apps Challenge
             </h1>
             <h3 className="text-3xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">
               Will It Rain On My Parade?
             </h3>
-          </div>
-
-          <div className="flex justify-center mt-6">
-            <div className="flex items-center gap-3">
-              <Button
-                onClick={handleDownload}
-                className="inline-flex items-center gap-2 bg-gray-800 px-4 py-2 rounded-xl hover:bg-gray-900"
-              >
-                <Download className="w-5 h-5" />
-                Download Raw Data
-              </Button>
-            </div>
+            <h5 className="text-3xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">
+              Climatrack
+            </h5>
           </div>
         </header>
 
@@ -175,26 +166,41 @@ export default function Dashboard() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
           {/* Left: Chart */}
           <div className="space-y-4">
-            <div className="bg-gray-800 rounded-xl flex w-[100px] items-center gap-2">
-              <Select
-                value={rangeDays.toString()}
-                onValueChange={(val) => handleDaysChange(parseInt(val))}
+            {/* Filter + Download Button side by side */}
+            <div className="flex items-center justify-between gap-4">
+              {/* Filter */}
+              <div className="bg-gray-800 rounded-xl flex items-center gap-2 px-2">
+                <Select
+                  value={rangeDays.toString()}
+                  onValueChange={(val) => handleDaysChange(parseInt(val))}
+                >
+                  <SelectTrigger className="bg-transparent border-0 text-gray-200">
+                    <SelectValue placeholder="Select range" />
+                  </SelectTrigger>
+                  <SelectContent className="bg-gray-800 text-gray-200 border border-gray-600">
+                    <SelectItem value="5">5 days</SelectItem>
+                    <SelectItem value="7">7 days</SelectItem>
+                    <SelectItem value="15">15 days</SelectItem>
+                    <SelectItem value="30">1 Month</SelectItem>
+                    <SelectItem value="60">2 Months</SelectItem>
+                    <SelectItem value="90">3 Months</SelectItem>
+                    <SelectItem value="183">6 Months</SelectItem>
+                    <SelectItem value="365">1 Year</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              {/* Download Button */}
+              <Button
+                onClick={handleDownload}
+                className="inline-flex items-center gap-2 bg-gray-800 px-4 py-2 rounded-xl hover:bg-gray-900"
               >
-                <SelectTrigger className="bg-transparent border-0 text-gray-200">
-                  <SelectValue placeholder="Select range" />
-                </SelectTrigger>
-                <SelectContent className="bg-gray-800 text-gray-200 border border-gray-600">
-                  <SelectItem value="5">5 days</SelectItem>
-                  <SelectItem value="7">7 days</SelectItem>
-                  <SelectItem value="15">15 days</SelectItem>
-                  <SelectItem value="30">1 Month</SelectItem>
-                  <SelectItem value="60">2 Months</SelectItem>
-                  <SelectItem value="90">3 Months</SelectItem>
-                  <SelectItem value="183">6 Months</SelectItem>
-                  <SelectItem value="365">1 Year</SelectItem>
-                </SelectContent>
-              </Select>
+                <Download className="w-5 h-5" />
+                Download Raw Data
+              </Button>
             </div>
+
+            {/* Chart below controls */}
             <ForecastChart sampleData={sampleData} days={rangeDays} />
           </div>
 
